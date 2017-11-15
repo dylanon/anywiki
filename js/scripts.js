@@ -20,9 +20,37 @@
 // Create app namespace
 const superwiki = {};
 
+// Working API Endpoint
+// const endpoint = 'https://performancewiki.ca/api.php';
+const endpoint = 'https://en.wikipedia.org/w/api.php';
+// const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
+
+superwiki.search = function(endpointURL, queryText) {
+    $.ajax({
+        url: endpoint,
+        method: 'GET',
+        dataType: 'json',
+        headers: {
+            'Api-User-Agent': 'superWiki/0.0.1 (https://dylanon.com/; hey@dylanon.com)'
+        },
+        data: {
+            action: 'query',
+            format: 'json',
+            origin: '*',
+            list: 'search',
+            srsearch: queryText,
+            srwhat: 'text'
+        }
+    })
+    .then((searchResults) => {
+        console.log(searchResults);
+    });
+}
+
 superwiki.init = function() {
     console.log('really initialized');
-};
+    superwiki.search(endpoint, 'outside the march');
+}
 
 $(function(){
     superwiki.init();
