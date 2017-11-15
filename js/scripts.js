@@ -41,8 +41,7 @@ superwiki.search = function(endpointURL, queryText) {
             srsearch: queryText,
             srwhat: 'text'
         }
-    })
-    .then((searchResults) => {
+    }).then((searchResults) => {
         console.log(searchResults);
     });
 }
