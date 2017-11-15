@@ -21,7 +21,7 @@
 const superwiki = {};
 
 // Working API Endpoint
-// const endpoint = 'https://performancewiki.ca/api.php';
+// const endpoint = 'https://performancewiki.ca/api.php/';
 const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
@@ -30,9 +30,9 @@ superwiki.search = function(endpointURL, queryText) {
         url: endpoint,
         method: 'GET',
         dataType: 'json',
-        headers: {
-            'Api-User-Agent': 'superWiki/0.0.1 (https://dylanon.com/; hey@dylanon.com)'
-        },
+        // headers: { // This makes the browser send a preflight request
+        //     'Api-User-Agent': 'superWiki/0.0.1 (https://dylanon.com/; hey@dylanon.com)'
+        // },
         data: {
             action: 'query',
             format: 'json',
