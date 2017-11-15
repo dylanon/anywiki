@@ -17,6 +17,13 @@
 // - Display the sanitized HTML in the content area
 // - User can click an X in the corner to close article/results and return to the search page
 
+// Create app namespace
+const superwiki = {};
+
+const init = function() {
+    console.log('initialized');
+};
+
 $(function(){
-    console.log('ready');
+    init();
 });
