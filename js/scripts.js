@@ -20,10 +20,10 @@
 // Create app namespace
 const superwiki = {};
 
-const init = function() {
-    console.log('initialized');
+superwiki.init = function() {
+    console.log('really initialized');
 };
 
 $(function(){
-    init();
+    superwiki.init();
 });
