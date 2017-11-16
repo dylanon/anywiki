@@ -23,18 +23,25 @@ const superwiki = {};
 // Working API Endpoint
 // const endpoint = 'https://performancewiki.ca/api.php';
 // const endpoint = 'https://indieweb.org/wiki/api.php';
-const endpoint = 'https://en.wikipedia.org/w/api.php';
-// const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
+// const endpoint = 'https://en.wikipedia.org/w/api.php';
+const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 superwiki.events = function() {
     // Listen for when a search result link is clicked
-    $('.search-results').on('click', 'a', function() {
+    $('.search-results').on('click', 'a', function(event) {
+        event.preventDefault();
         const clickedPage = $(this).text();
         superwiki.getPage(endpoint, clickedPage);
-    }); 
+    });
+
+    // Listen for a click on the "Next" link for more search results
+    $('.next-results-page').on('click', function() {
+        event.preventDefault();
+        superwiki.search(endpoint, superwiki.theQuery, superwiki.resultsViewed);
+    });
 }
 
-superwiki.search = function(endpointURL, queryText) {
+superwiki.search = function(endpointURL, queryText, resultsOffset) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
@@ -46,6 +53,8 @@ superwiki.search = function(endpointURL, queryText) {
                 format: 'json',
                 list: 'search',
                 srsearch: queryText,
+                srlimit: 10,
+                sroffset: resultsOffset,
                 srwhat: 'text'
             },
             xmlToJSON: false
@@ -56,8 +65,11 @@ superwiki.search = function(endpointURL, queryText) {
 }
 
 superwiki.displayResults = function(resultsObject) {
+    // Empty the results container
+    $('.search-results').empty();
+
     const results = resultsObject.query.search;
-    console.log(results);
+
     results.forEach(hit => {
         // Create elements
         const listItem = $('<li>');
@@ -67,6 +79,8 @@ superwiki.displayResults = function(resultsObject) {
         listItem.append(link, snippet);
         $('.search-results').append(listItem);
     });
+    // Store our place in the results
+    superwiki.resultsViewed = resultsObject.continue.sroffset;
 }
 
 superwiki.getPage = function(endpointURL, pageTitle) {
@@ -97,7 +111,8 @@ superwiki.displayArticle = function(resultsObject) {
 
 superwiki.init = function() {
     superwiki.events();
-    superwiki.search(endpoint, 'outside the march');
+    superwiki.theQuery = 'outside the march';
+    superwiki.search(endpoint, superwiki.theQuery);
 }
 
 $(function(){
