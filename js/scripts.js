@@ -21,8 +21,8 @@
 const superwiki = {};
 
 // Working API Endpoint
-const endpoint = 'https://performancewiki.ca/api.php';
-// const endpoint = 'https://indieweb.org/wiki/api.php';
+// const endpoint = 'https://performancewiki.ca/api.php';
+const endpoint = 'https://indieweb.org/wiki/api.php';
 // const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
@@ -35,8 +35,20 @@ superwiki.events = function() {
     });
 
     // Listen for a click on the "Next" link for more search results
-    $('.results-nav').on('click', '.next-results', function() {
+    $('.results-nav').on('click', '.next-results', function(event) {
         event.preventDefault();
+        superwiki.search(endpoint, superwiki.theQuery, superwiki.resultsViewed);
+    });
+
+    // Listen for a click on the "Previous" link for previous search results
+    $('.results-nav').on('click', '.previous-results', function(event) {
+        event.preventDefault();
+        // Calculate value for sroffset - location in search results
+        if (superwiki.resultsViewed % superwiki.resultsPerPage === 0) {
+            superwiki.resultsViewed = superwiki.resultsViewed - superwiki.resultsPerPage * 2;
+        } else {
+            superwiki.resultsViewed = superwiki.resultsViewed - superwiki.resultsPerPage - (superwiki.resultsViewed % superwiki.resultsPerPage);
+        }
         superwiki.search(endpoint, superwiki.theQuery, superwiki.resultsViewed);
     });
 }
@@ -60,7 +72,6 @@ superwiki.search = function(endpointURL, queryText, resultsOffset) {
             xmlToJSON: false
         }
     }).then(response => {
-        console.log(response);
         superwiki.displayResults(response);
     });
 }
