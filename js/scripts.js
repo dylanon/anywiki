@@ -21,26 +21,22 @@
 const superwiki = {};
 
 // Working API Endpoint
-// const endpoint = 'https://performancewiki.ca/api.php';
+const endpoint = 'https://performancewiki.ca/api.php';
 // const endpoint = 'https://indieweb.org/wiki/api.php';
 // const endpoint = 'https://en.wikipedia.org/w/api.php';
-const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
+// const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 superwiki.search = function(endpointURL, queryText) {
     $.ajax({
-        // url: 'https://cors-anywhere.herokuapp.com/' + endpointURL,
+        // url: 'https://cors-anywhere.herokuapp.com/' + endpointURL, // Alternative CORS proxy
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
         dataType: 'json',
-        // headers: { // This makes the browser send a preflight request
-        //     'Api-User-Agent': 'superWiki/0.0.1 (https://dylanon.com/; hey@dylanon.com)'
-        // },
         data: {
             reqUrl: endpointURL,
             params: {
                 action: 'query',
                 format: 'json',
-                origin: '*',
                 list: 'search',
                 srsearch: queryText,
                 srwhat: 'text'
