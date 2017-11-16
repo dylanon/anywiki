@@ -12,7 +12,7 @@
 // * - API returns page data as JSON, including the HTML for the page
 // - Process/sanitize the HTML in some way (there is a lot of junk in there)
 //   * - get h1 (document title)
-//   - get page content inside div#bodyContent
+//   * - get page content inside div#bodyContent
 //   - Ryan suggests using regex to clean up HTML
 // - Display the sanitized HTML in the content area
 // - User can click an X in the corner to close article/results and return to the search page
