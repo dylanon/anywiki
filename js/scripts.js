@@ -43,8 +43,22 @@ superwiki.search = function(endpointURL, queryText) {
             },
             xmlToJSON: false
         }
-    }).then((searchResults) => {
-        console.log(searchResults);
+    }).then(response => {
+        superwiki.displayResults(response);
+    });
+}
+
+superwiki.displayResults = function(resultsObject) {
+    const results = resultsObject.query.search;
+    console.log(results);
+    results.forEach(hit => {
+        // Create elements
+        const listItem = $('<li>');
+        const link = $('<a>').attr('href', '').html(hit.title);
+        const snippet = $('<p>').html(hit.snippet);
+        // Put elements together and display
+        listItem.append(link, snippet);
+        $('.search-results').append(listItem);
     });
 }
 
