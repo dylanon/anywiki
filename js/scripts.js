@@ -35,7 +35,7 @@ superwiki.events = function() {
     });
 
     // Listen for a click on the "Next" link for more search results
-    $('.next-results-page').on('click', function() {
+    $('.results-nav').on('click', '.next-results', function() {
         event.preventDefault();
         superwiki.search(endpoint, superwiki.theQuery, superwiki.resultsViewed);
     });
@@ -82,6 +82,19 @@ superwiki.displayResults = function(resultsObject) {
 
         superwiki.resultsViewed = superwiki.resultsViewed += 1;
     });
+
+    // Update pagination links
+    $('.results-nav').empty();
+
+    if (superwiki.resultsViewed > superwiki.resultsPerPage) {
+        const previousLink = $('<a>').attr('href', '#').addClass('previous-results').text('Previous');
+        $('.results-nav').append(previousLink);
+    }
+    if (superwiki.resultsViewed % superwiki.resultsPerPage === 0) {
+        const nextLink = $('<a>').attr('href', '#').addClass('next-results').text('Next');
+        $('.results-nav').append(nextLink);
+    }
+
 }
 
 superwiki.getPage = function(endpointURL, pageTitle) {
