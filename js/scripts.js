@@ -21,9 +21,9 @@
 const superwiki = {};
 
 // Working API Endpoint
-const endpoint = 'https://performancewiki.ca/api.php';
+// const endpoint = 'https://performancewiki.ca/api.php';
 // const endpoint = 'https://indieweb.org/wiki/api.php';
-// const endpoint = 'https://en.wikipedia.org/w/api.php';
+const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 superwiki.events = function() {
@@ -84,8 +84,15 @@ superwiki.getPage = function(endpointURL, pageTitle) {
             xmlToJSON: false
         }
     }).then(response => {
-        console.log(response);
+        superwiki.displayArticle(response);
     });
+}
+
+superwiki.displayArticle = function(resultsObject) {
+    $('.article').empty();
+    const articleTitle = $('<h1>').html(resultsObject.parse.displaytitle);
+    const articleHTML = resultsObject.parse.text['*'];
+    $('.article').append(articleTitle, articleHTML);
 }
 
 superwiki.init = function() {
