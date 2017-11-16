@@ -27,7 +27,7 @@ const endpoint = 'https://en.wikipedia.org/w/api.php';
 
 superwiki.search = function(endpointURL, queryText) {
     $.ajax({
-        url: endpoint,
+        url: endpointURL,
         method: 'GET',
         dataType: 'json',
         // headers: { // This makes the browser send a preflight request
