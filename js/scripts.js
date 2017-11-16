@@ -54,7 +54,7 @@ superwiki.displayResults = function(resultsObject) {
     results.forEach(hit => {
         // Create elements
         const listItem = $('<li>');
-        const link = $('<a>').attr('href', '').html(hit.title);
+        const link = $('<a>').attr('href', '#').text(hit.title);
         const snippet = $('<p>').html(hit.snippet);
         // Put elements together and display
         listItem.append(link, snippet);
