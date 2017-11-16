@@ -40,7 +40,8 @@ superwiki.search = function(endpointURL, queryText) {
                 list: 'search',
                 srsearch: queryText,
                 srwhat: 'text'
-            }
+            },
+            xmlToJSON: false
         }
     }).then((searchResults) => {
         console.log(searchResults);
