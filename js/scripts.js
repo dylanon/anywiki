@@ -26,9 +26,16 @@ const endpoint = 'https://performancewiki.ca/api.php';
 // const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
+superwiki.events = function() {
+    // Listen for when a search result link is clicked
+    $('.search-results').on('click', 'a', function() {
+        const clickedPage = $(this).text();
+        superwiki.getPage(endpoint, clickedPage);
+    }); 
+}
+
 superwiki.search = function(endpointURL, queryText) {
     $.ajax({
-        // url: 'https://cors-anywhere.herokuapp.com/' + endpointURL, // Alternative CORS proxy
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
         dataType: 'json',
@@ -62,8 +69,27 @@ superwiki.displayResults = function(resultsObject) {
     });
 }
 
+superwiki.getPage = function(endpointURL, pageTitle) {
+    $.ajax({
+        url: 'http://proxy.hackeryou.com',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            reqUrl: endpointURL,
+            params: {
+                action: 'parse',
+                format: 'json',
+                page: pageTitle
+            },
+            xmlToJSON: false
+        }
+    }).then(response => {
+        console.log(response);
+    });
+}
+
 superwiki.init = function() {
-    console.log('really initialized');
+    superwiki.events();
     superwiki.search(endpoint, 'outside the march');
 }
 
