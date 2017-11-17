@@ -31,8 +31,8 @@ superwiki.events = function() {
     // Listen for when a search result link is clicked
     $('.search-results').on('click', 'a', function(event) {
         event.preventDefault();
-        const clickedPage = $(this).text();
-        superwiki.getPage(endpoint, clickedPage);
+        superwiki.selectedPage = $(this).text();
+        superwiki.getPage(endpoint, superwiki.selectedPage);
     });
 
     // Listen for a click on the "Next" link for more search results
@@ -127,14 +127,10 @@ superwiki.getPage = function(endpointURL, pageTitle) {
         }
     }).then(response => {
         const pagesObject = response.query.pages;
-        // console.log(pagesObject);
         let pageURL = '';
-        // let pageTitle = '';
         for (let page in pagesObject) {
             pageURL = pagesObject[page].fullurl;
-            // pageTitle = pagesObject[page].title;
         }
-        // console.log(pageURL);
         superwiki.getContent(pageURL); 
     });
 }
@@ -152,17 +148,18 @@ superwiki.getContent = function(thePageURL) {
             xmlToJSON: false
         }
     }).then(response => {
-        // response is raw HTML
+        // Response is a string of HTML
         superwiki.displayArticle(response);
     });
 }
 
 superwiki.displayArticle = function(htmlString) {
-    let articleTitle = 'Article Title';
+    const articleTitle = $('<h1>').text(superwiki.selectedPage);
     // Fix links and image sources that start with '//' instead of 'http://' 
     const badHref = /href=["']\/\//g;
     const badSrc = /src=["']\/\//g;
     let articleHTML = htmlString.replace(badHref, 'href="http://');
+    articleHTML = articleHTML.replace(badSrc, 'src="http://');
     // Remove inline styles and tables from article HTML
     articleHTML = DOMPurify.sanitize(articleHTML, {
         SAFE_FOR_JQUERY: true,
