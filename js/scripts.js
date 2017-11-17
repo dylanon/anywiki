@@ -54,6 +54,23 @@ superwiki.events = function() {
     });
 }
 
+superwiki.getEndpoint = function(urlString){
+    // Gets the endpoint from the user-inputted URL
+    // Incomplete
+    $.ajax({
+        url: 'http://proxy.hackeryou.com',
+        method: 'GET',
+        dataType: 'html',
+        data: {
+            reqUrl: urlString,
+            xmlToJSON: false
+        }
+    }).then((response) => {
+        // Response is raw HTML of the page
+        console.log(response);
+    });
+}
+
 superwiki.search = function(endpointURL, queryText, resultsOffset) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
