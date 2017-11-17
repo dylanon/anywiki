@@ -22,9 +22,9 @@
 const superwiki = {};
 
 // Working API Endpoint
-const endpoint = 'https://performancewiki.ca/api.php';
+// const endpoint = 'https://performancewiki.ca/api.php';
 // const endpoint = 'https://indieweb.org/wiki/api.php';
-// const endpoint = 'https://en.wikipedia.org/w/api.php';
+const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 superwiki.events = function() {
@@ -117,21 +117,52 @@ superwiki.getPage = function(endpointURL, pageTitle) {
         data: {
             reqUrl: endpointURL,
             params: {
-                action: 'parse',
+                action: 'query',
                 format: 'json',
-                page: pageTitle
+                titles: pageTitle,
+                prop: 'info',
+                inprop: 'url'
             },
             xmlToJSON: false
         }
     }).then(response => {
+        const pagesObject = response.query.pages;
+        // console.log(pagesObject);
+        let pageURL = '';
+        // let pageTitle = '';
+        for (let page in pagesObject) {
+            pageURL = pagesObject[page].fullurl;
+            // pageTitle = pagesObject[page].title;
+        }
+        // console.log(pageURL);
+        superwiki.getContent(pageURL); 
+    });
+}
+
+superwiki.getContent = function(thePageURL) {
+    $.ajax({
+        url: 'http://proxy.hackeryou.com',
+        method: 'GET',
+        dataType: 'html',
+        data: {
+            reqUrl: thePageURL,
+            params: {
+                action: 'render'
+            },
+            xmlToJSON: false
+        }
+    }).then(response => {
+        // response is raw HTML
         superwiki.displayArticle(response);
     });
 }
 
-superwiki.displayArticle = function(resultsObject) {
-    $('.article').empty();
-    const articleTitle = $('<h1>').html(resultsObject.parse.displaytitle);
-    let articleHTML = resultsObject.parse.text['*'];
+superwiki.displayArticle = function(htmlString) {
+    let articleTitle = 'Article Title';
+    // Fix links and image sources that start with '//' instead of 'http://' 
+    const badHref = /href=["']\/\//g;
+    const badSrc = /src=["']\/\//g;
+    let articleHTML = htmlString.replace(badHref, 'href="http://');
     // Remove inline styles and tables from article HTML
     articleHTML = DOMPurify.sanitize(articleHTML, {
         SAFE_FOR_JQUERY: true,
@@ -139,6 +170,8 @@ superwiki.displayArticle = function(resultsObject) {
         FORBID_ATTR: ['style'],
         KEEP_CONTENT: false
     });
+    // Empty and display
+    $('.article').empty();
     $('.article').append(articleTitle, articleHTML);
 }
 
