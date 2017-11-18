@@ -15,8 +15,11 @@ $bg-gradient-mid-percent: 54%;
 $base-margin: 1.6rem;
 $base-margin-px: 16px;
 
+$modal-bg: #e1e1e1;
+
 // Imports
 
 @import 'partials/setup';
 @import 'partials/globals.scss';
 @import 'partials/search.scss';
+@import 'partials/modal.scss';
