@@ -32,21 +32,22 @@ anywiki.events = function() {
     $('#search-submit').on('click', function(event) {
         event.preventDefault();
         anywiki.searchText = $('#search-text').val();
+        const wikiURL = $('#search-endpoint').val();
         anywiki.resultsViewed = 0;
-        anywiki.search(endpoint, anywiki.searchText);
+        anywiki.getEndpoint(wikiURL);
     });
     
     // Listen for when a search result link is clicked
     $('.search-results').on('click', 'a', function(event) {
         event.preventDefault();
         anywiki.selectedPage = $(this).text();
-        anywiki.getPage(endpoint, anywiki.selectedPage);
+        anywiki.getPage(anywiki.endpoint, anywiki.selectedPage);
     });
 
     // Listen for a click on the "Next" link for more search results
     $('.results-nav').on('click', '.next-results', function(event) {
         event.preventDefault();
-        anywiki.search(endpoint, anywiki.searchText, anywiki.resultsViewed);
+        anywiki.search(anywiki.endpoint, anywiki.searchText, anywiki.resultsViewed);
     });
 
     // Listen for a click on the "Previous" link for previous search results
@@ -58,7 +59,7 @@ anywiki.events = function() {
         } else {
             anywiki.resultsViewed = anywiki.resultsViewed - anywiki.resultsPerPage - (anywiki.resultsViewed % anywiki.resultsPerPage);
         }
-        anywiki.search(endpoint, anywiki.searchText, anywiki.resultsViewed);
+        anywiki.search(anywiki.endpoint, anywiki.searchText, anywiki.resultsViewed);
     });
 }
 
@@ -98,7 +99,10 @@ anywiki.getEndpoint = function(urlString){
         let theEndpoint = matchArray[1];
         // If the URL doesn't start with letters, replace non-letters with 'http://'
         theEndpoint = theEndpoint.replace(badStart, 'http://');
-        console.log(theEndpoint);
+        // Store the endpoint
+        anywiki.endpoint = theEndpoint;
+        // Do the search
+        anywiki.search(anywiki.endpoint, anywiki.searchText);
     });
 }
 
