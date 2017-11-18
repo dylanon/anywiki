@@ -1,6 +1,6 @@
 // ## Pseudocode
 
-// - User picks a wiki to search (for MVP, there is only one option)
+// * - User picks a wiki to search (for MVP, there is only one option)
 // * - User enters search text
 // * - User submits search text
 // * - Send a 'query' request to the API endpoint, pass along the search text
