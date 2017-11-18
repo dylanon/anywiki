@@ -1,11 +1,34 @@
 /* SEARCH */
 
 .search-view {
-    background: orange;
+    background: linear-gradient(
+        to bottom right, 
+        $bg-gradient-start, 
+        $bg-gradient-mid $bg-gradient-mid-percent, 
+        $bg-gradient-end
+    );
     height: 100vh;
     display: flex;
+    text-align: center;
 }
 
 .search-view-content {
     margin: auto;
+}
+
+.site-title {
+    color: $primary-color;
+    font: {
+        size: 8rem;
+        weight: 700;
+    }
+    margin: 0;
+}
+
+.tagline {
+    font: {
+        size: 2.4rem;
+        weight: 300;
+    }
+    margin: 0 0 1.6rem 0;
 }
