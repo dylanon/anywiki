@@ -64,13 +64,30 @@ anywiki.events = function() {
 
 anywiki.getEndpoint = function(urlString){
     // Gets the endpoint from the user-inputted URL
-    // Incomplete
+    let requestURL = urlString;
+    const badStart = /^[^a-zA-z]+/;
+    const protocolRegex = /^https?:\/\//;
+    const wikipediaRegex = /^(https?:\/\/)*wikipedia\.org/;
+
+    // Replace non-letter characters at start with appropriate protocol
+    if (badStart.test(requestURL)) {
+        requestURL = requestURL.replace(badStart, 'http://');
+    }
+    // Add protocol if it's not specified
+    if (protocolRegex.test(requestURL) === false) {
+        requestURL = 'http://' + requestURL;
+    }
+    // Redirect Wikipedia home page to English Wikipedia
+    if (wikipediaRegex.test(requestURL)) {
+        requestURL = requestURL.replace(/wikipedia/, 'en.wikipedia');
+    }
+
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
         dataType: 'html',
         data: {
-            reqUrl: urlString,
+            reqUrl: requestURL,
             xmlToJSON: false
         }
     }).then((response) => {
@@ -80,7 +97,6 @@ anywiki.getEndpoint = function(urlString){
         // Store the endpoint URL only
         let theEndpoint = matchArray[1];
         // If the URL doesn't start with letters, replace non-letters with 'http://'
-        const badStart = /^[^a-zA-z]+/;
         theEndpoint = theEndpoint.replace(badStart, 'http://');
         console.log(theEndpoint);
     });
