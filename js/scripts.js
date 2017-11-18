@@ -19,7 +19,7 @@
 // - User can click an X in the corner to close article/results and return to the search page
 
 // Create app namespace
-const superwiki = {};
+const anywiki = {};
 
 // Working API Endpoint
 // const endpoint = 'https://performancewiki.ca/api.php';
@@ -27,34 +27,34 @@ const superwiki = {};
 const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
-superwiki.events = function() {
+anywiki.events = function() {
     // Listen for when a search result link is clicked
     $('.search-results').on('click', 'a', function(event) {
         event.preventDefault();
-        superwiki.selectedPage = $(this).text();
-        superwiki.getPage(endpoint, superwiki.selectedPage);
+        anywiki.selectedPage = $(this).text();
+        anywiki.getPage(endpoint, anywiki.selectedPage);
     });
 
     // Listen for a click on the "Next" link for more search results
     $('.results-nav').on('click', '.next-results', function(event) {
         event.preventDefault();
-        superwiki.search(endpoint, superwiki.theQuery, superwiki.resultsViewed);
+        anywiki.search(endpoint, anywiki.theQuery, anywiki.resultsViewed);
     });
 
     // Listen for a click on the "Previous" link for previous search results
     $('.results-nav').on('click', '.previous-results', function(event) {
         event.preventDefault();
         // Calculate value for sroffset - location in search results
-        if (superwiki.resultsViewed % superwiki.resultsPerPage === 0) {
-            superwiki.resultsViewed = superwiki.resultsViewed - superwiki.resultsPerPage * 2;
+        if (anywiki.resultsViewed % anywiki.resultsPerPage === 0) {
+            anywiki.resultsViewed = anywiki.resultsViewed - anywiki.resultsPerPage * 2;
         } else {
-            superwiki.resultsViewed = superwiki.resultsViewed - superwiki.resultsPerPage - (superwiki.resultsViewed % superwiki.resultsPerPage);
+            anywiki.resultsViewed = anywiki.resultsViewed - anywiki.resultsPerPage - (anywiki.resultsViewed % anywiki.resultsPerPage);
         }
-        superwiki.search(endpoint, superwiki.theQuery, superwiki.resultsViewed);
+        anywiki.search(endpoint, anywiki.theQuery, anywiki.resultsViewed);
     });
 }
 
-superwiki.getEndpoint = function(urlString){
+anywiki.getEndpoint = function(urlString){
     // Gets the endpoint from the user-inputted URL
     // Incomplete
     $.ajax({
@@ -71,7 +71,7 @@ superwiki.getEndpoint = function(urlString){
     });
 }
 
-superwiki.search = function(endpointURL, queryText, resultsOffset) {
+anywiki.search = function(endpointURL, queryText, resultsOffset) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
@@ -83,18 +83,18 @@ superwiki.search = function(endpointURL, queryText, resultsOffset) {
                 format: 'json',
                 list: 'search',
                 srsearch: queryText,
-                srlimit: superwiki.resultsPerPage,
+                srlimit: anywiki.resultsPerPage,
                 sroffset: resultsOffset,
                 srwhat: 'text'
             },
             xmlToJSON: false
         }
     }).then(response => {
-        superwiki.displayResults(response);
+        anywiki.displayResults(response);
     });
 }
 
-superwiki.displayResults = function(resultsObject) {
+anywiki.displayResults = function(resultsObject) {
     // Empty the results container
     $('.search-results').empty();
 
@@ -109,24 +109,24 @@ superwiki.displayResults = function(resultsObject) {
         listItem.append(link, snippet);
         $('.search-results').append(listItem);
 
-        superwiki.resultsViewed = superwiki.resultsViewed += 1;
+        anywiki.resultsViewed = anywiki.resultsViewed += 1;
     });
 
     // Update pagination links
     $('.results-nav').empty();
 
-    if (superwiki.resultsViewed > superwiki.resultsPerPage) {
+    if (anywiki.resultsViewed > anywiki.resultsPerPage) {
         const previousLink = $('<a>').attr('href', '#').addClass('previous-results').text('Previous');
         $('.results-nav').append(previousLink);
     }
-    if (superwiki.resultsViewed % superwiki.resultsPerPage === 0) {
+    if (anywiki.resultsViewed % anywiki.resultsPerPage === 0) {
         const nextLink = $('<a>').attr('href', '#').addClass('next-results').text('Next');
         $('.results-nav').append(nextLink);
     }
 
 }
 
-superwiki.getPage = function(endpointURL, pageTitle) {
+anywiki.getPage = function(endpointURL, pageTitle) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
@@ -148,11 +148,11 @@ superwiki.getPage = function(endpointURL, pageTitle) {
         for (let page in pagesObject) {
             pageURL = pagesObject[page].fullurl;
         }
-        superwiki.getContent(pageURL); 
+        anywiki.getContent(pageURL); 
     });
 }
 
-superwiki.getContent = function(thePageURL) {
+anywiki.getContent = function(thePageURL) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
@@ -166,12 +166,12 @@ superwiki.getContent = function(thePageURL) {
         }
     }).then(response => {
         // Response is a string of HTML
-        superwiki.displayArticle(response);
+        anywiki.displayArticle(response);
     });
 }
 
-superwiki.displayArticle = function(htmlString) {
-    const articleTitle = $('<h1>').text(superwiki.selectedPage);
+anywiki.displayArticle = function(htmlString) {
+    const articleTitle = $('<h1>').text(anywiki.selectedPage);
     // Fix links and image sources that start with '//' instead of 'http://' 
     const badHref = /href=["']\/\//g;
     const badSrc = /src=["']\/\//g;
@@ -218,14 +218,14 @@ superwiki.displayArticle = function(htmlString) {
     $('.article').append(articleHTML);
 }
 
-superwiki.init = function() {
-    superwiki.events();
-    superwiki.resultsViewed = 0;
-    superwiki.resultsPerPage = 10;
-    superwiki.theQuery = 'outside the march';
-    superwiki.search(endpoint, superwiki.theQuery);
+anywiki.init = function() {
+    anywiki.events();
+    anywiki.resultsViewed = 0;
+    anywiki.resultsPerPage = 10;
+    anywiki.theQuery = 'outside the march';
+    anywiki.search(endpoint, anywiki.theQuery);
 }
 
 $(function(){
-    superwiki.init();
+    anywiki.init();
 });
