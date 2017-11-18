@@ -177,10 +177,22 @@ superwiki.displayArticle = function(htmlString) {
     const badSrc = /src=["']\/\//g;
     let articleHTML = htmlString.replace(badHref, 'href="http://');
     articleHTML = articleHTML.replace(badSrc, 'src="http://');
+
+    // Extract image URLs for properly referenced images
+    let imageArray = articleHTML.match(/<img.*src=['"]https?:\/\/([^'"]*)\.(jpg|png)/g);
+    if (imageArray) {
+        imageArray.forEach((image, i) => {
+            imageArray[i] = imageArray[i].replace(/<img.*src=['"]/, '');
+        });
+        console.log(imageArray);
+    } else {
+        console.log('No properly referenced images to grab.')
+    }
+
     // Remove inline styles and tables from article HTML
     articleHTML = DOMPurify.sanitize(articleHTML, {
         SAFE_FOR_JQUERY: true,
-        FORBID_TAGS: ['table', 'style'],
+        FORBID_TAGS: ['table', 'style', 'img', 'sup'],
         FORBID_ATTR: ['style'],
         KEEP_CONTENT: false
     });
