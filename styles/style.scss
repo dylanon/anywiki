@@ -1,5 +1,10 @@
 // Variables
 
+$font-family: 'Lato', sans-serif;
+$font-size: 1.6rem;
+
 // Imports
 
 @import 'partials/setup';
+@import 'partials/globals.scss';
+@import 'partials/search.scss';

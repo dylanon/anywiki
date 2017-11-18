@@ -1,0 +1,13 @@
+/* GLOBALS */
+
+html {
+    font-size: 10px / 16px * 100%;
+    height: 100%;
+}
+
+body {
+    font: {
+        family: $font-family;
+        size: $font-size;
+    }
+}
