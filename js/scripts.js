@@ -196,9 +196,26 @@ superwiki.displayArticle = function(htmlString) {
         FORBID_ATTR: ['style'],
         KEEP_CONTENT: false
     });
+
     // Empty and display
     $('.article').empty();
-    $('.article').append(articleTitle, articleHTML);
+    $('.article').append(articleTitle);
+        if (imageArray) {
+            // Build image carousel
+            const carousel = $('<div>').addClass('carousel');
+            imageArray.forEach(image => {
+                const carouselItem = $('<div>').addClass('carousel-cell');
+                carouselItem.append($('<img>').attr('src', image));
+                carousel.append(carouselItem);
+            });
+            $('.article').append(carousel);
+            $('.carousel').flickity({
+                cellAlign: 'center',
+                imagesLoaded: true,
+                wrapAround: true
+            });
+        }
+    $('.article').append(articleHTML);
 }
 
 superwiki.init = function() {
