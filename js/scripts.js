@@ -75,7 +75,14 @@ anywiki.getEndpoint = function(urlString){
         }
     }).then((response) => {
         // Response is raw HTML of the page
-        console.log(response);
+        const regex = /rel=['"]EditURI.*href=['"](.*api\.php)/i;
+        const matchArray = response.match(regex);
+        // Store the endpoint URL only
+        let theEndpoint = matchArray[1];
+        // If the URL doesn't start with letters, replace non-letters with 'http://'
+        const badStart = /^[^a-zA-z]+/;
+        theEndpoint = theEndpoint.replace(badStart, 'http://');
+        console.log(theEndpoint);
     });
 }
 
