@@ -28,6 +28,14 @@ const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 anywiki.events = function() {
+    // Listen for a click on the "Search" button
+    $('#search-submit').on('click', function(event) {
+        event.preventDefault();
+        anywiki.searchText = $('#search-text').val();
+        anywiki.resultsViewed = 0;
+        anywiki.search(endpoint, anywiki.searchText);
+    });
+    
     // Listen for when a search result link is clicked
     $('.search-results').on('click', 'a', function(event) {
         event.preventDefault();
@@ -38,7 +46,7 @@ anywiki.events = function() {
     // Listen for a click on the "Next" link for more search results
     $('.results-nav').on('click', '.next-results', function(event) {
         event.preventDefault();
-        anywiki.search(endpoint, anywiki.theQuery, anywiki.resultsViewed);
+        anywiki.search(endpoint, anywiki.searchText, anywiki.resultsViewed);
     });
 
     // Listen for a click on the "Previous" link for previous search results
@@ -50,7 +58,7 @@ anywiki.events = function() {
         } else {
             anywiki.resultsViewed = anywiki.resultsViewed - anywiki.resultsPerPage - (anywiki.resultsViewed % anywiki.resultsPerPage);
         }
-        anywiki.search(endpoint, anywiki.theQuery, anywiki.resultsViewed);
+        anywiki.search(endpoint, anywiki.searchText, anywiki.resultsViewed);
     });
 }
 
@@ -220,10 +228,7 @@ anywiki.displayArticle = function(htmlString) {
 
 anywiki.init = function() {
     anywiki.events();
-    anywiki.resultsViewed = 0;
     anywiki.resultsPerPage = 10;
-    anywiki.theQuery = 'outside the march';
-    anywiki.search(endpoint, anywiki.theQuery);
 }
 
 $(function(){
