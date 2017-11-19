@@ -284,6 +284,7 @@ anywiki.displayArticle = function(htmlString) {
         FORBID_ATTR: ['style'],
         KEEP_CONTENT: false
     });
+    articleHTML = $('<div>').addClass('article-body').html(articleHTML);
     articleElement.append(articleHTML);
 
     // Empty container and display the article
