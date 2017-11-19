@@ -219,11 +219,20 @@ anywiki.getContent = function(thePageURL) {
 }
 
 anywiki.displayArticle = function(htmlString) {
+    // Create the article element
+    const articleElement = $('<article>').addClass('article');
+
+    // Create the title and add it to the element
     const articleTitle = $('<h1>').text(anywiki.selectedPage);
+    articleElement.append(articleTitle);
+
+    // Store the HTML for processing
+    let articleHTML = htmlString;
+
     // Fix links and image sources that start with '//' instead of 'http://' 
     const badHref = /href=["']\/\//g;
     const badSrc = /src=["']\/\//g;
-    let articleHTML = htmlString.replace(badHref, 'href="http://');
+    articleHTML = articleHTML.replace(badHref, 'href="http://');
     articleHTML = articleHTML.replace(badSrc, 'src="http://');
 
     // Extract image URLs for properly referenced images
@@ -237,33 +246,37 @@ anywiki.displayArticle = function(htmlString) {
         console.log('No properly referenced images to grab.')
     }
 
-    // Remove inline styles and tables from article HTML
+    // If there are images, add an image carousel to the article element
+    if (imageArray) {
+        // Build image carousel
+        const carousel = $('<div>').addClass('carousel');
+        imageArray.forEach(image => {
+            const carouselItem = $('<div>').addClass('carousel-cell');
+            carouselItem.append($('<img>').attr('src', image));
+            carousel.append(carouselItem);
+        });
+        articleElement.append(carousel);
+    }
+
+    // Remove inline styles and tables from article HTML, then add it to the article element
     articleHTML = DOMPurify.sanitize(articleHTML, {
         SAFE_FOR_JQUERY: true,
         FORBID_TAGS: ['table', 'style', 'img', 'sup'],
         FORBID_ATTR: ['style'],
         KEEP_CONTENT: false
     });
+    articleElement.append(articleHTML);
 
-    // Empty and display
-    $('.article').empty();
-    $('.article').append(articleTitle);
-        if (imageArray) {
-            // Build image carousel
-            const carousel = $('<div>').addClass('carousel');
-            imageArray.forEach(image => {
-                const carouselItem = $('<div>').addClass('carousel-cell');
-                carouselItem.append($('<img>').attr('src', image));
-                carousel.append(carouselItem);
-            });
-            $('.article').append(carousel);
-            $('.carousel').flickity({
-                cellAlign: 'center',
-                imagesLoaded: true,
-                wrapAround: true
-            });
-        }
-    $('.article').append(articleHTML);
+    // Empty container and display the article
+    $('.modal-content').empty();
+    $('.modal-content').append(articleElement);
+
+    // Initialize Flickity for image carousel
+    $('.carousel').flickity({
+        cellAlign: 'center',
+        imagesLoaded: true,
+        wrapAround: true
+    });
 }
 
 anywiki.closeModal = function() {
