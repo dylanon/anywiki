@@ -114,6 +114,7 @@ anywiki.getEndpoint = function(urlString){
         // Response is raw HTML of the page
         const regex = /rel=['"]EditURI.*href=['"](.*api\.php)/i;
         const matchArray = response.match(regex);
+        // Proceed if we found an endpoint URL, but warn the user if we didn't
         if (matchArray) {
             // Store the endpoint URL only
             let theEndpoint = matchArray[1];
