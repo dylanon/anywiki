@@ -294,7 +294,16 @@ anywiki.displayArticle = function(htmlString) {
         const carousel = $('<div>').addClass('carousel');
         imageArray.forEach(image => {
             const carouselItem = $('<div>').addClass('carousel-cell');
-            carouselItem.append($('<img>').attr('src', image));
+            const carouselImage = $('<img>').attr('src', image).on('load', function() {
+                // Images load slowly, so this runs after the carousel is initialized
+                const imgWidth = $(this).width();
+                const imgHeight = $(this).height();
+                // If the loaded image is too small, remove its cell from the carousel
+                if (imgWidth < 150 || imgHeight < 150) {
+                    $('.carousel').flickity('remove', $(this).parent());
+                }
+            });
+            carouselItem.append(carouselImage);
             carousel.append(carouselItem);
         });
         articleElement.append(carousel);
