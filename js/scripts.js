@@ -144,10 +144,11 @@ anywiki.search = function(endpointURL, queryText, resultsOffset) {
 }
 
 anywiki.displayResults = function(resultsObject) {
+    const results = resultsObject.query.search;
+
+    // Create a heading for the results page
     const searchSummary = `<em>"${anywiki.searchText}"</em> on <span class="user-wiki-url">${anywiki.searchWikiURL}</span>`;
     const resultsHeading = $('<h1>').addClass('results-heading').html(searchSummary);
-
-    const results = resultsObject.query.search;
 
     if (results.length === 0) {
         // If there are NO hits...
