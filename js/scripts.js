@@ -183,6 +183,9 @@ anywiki.displayResults = function(resultsObject) {
     $('.close-modal').css('display', 'block');
     $('.modal').addClass('modal-padding');
     $('.modal').addClass('modal-active');
+
+    // Reset scroll to top of window
+    $(window).scrollTop(0);
 }
 
 anywiki.backToResults = function() {
