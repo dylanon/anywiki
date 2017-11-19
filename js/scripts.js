@@ -38,14 +38,23 @@ anywiki.events = function() {
     });
 
     // Listen for a click on the modal 'Close' link
-    $('.close-modal').on('click', function() {
+    $('.close-modal').on('click', function(event) {
+        event.preventDefault();
         anywiki.closeModal();
+    });
+
+    // Listen for a click on the 'Back to results' link
+    $('.modal-content').on('click', '.back-to-results', function(event) {
+        event.preventDefault();
+        console.log('going back');
+        anywiki.backToResults();
     });
     
     // Listen for when a search result link is clicked
     $('.modal-content').on('click', '.search-results a', function(event) {
         event.preventDefault();
         anywiki.selectedPage = $(this).text();
+        anywiki.currentResults = $('.modal-content').html();
         anywiki.getPage(anywiki.endpoint, anywiki.selectedPage);
     });
 
@@ -174,6 +183,10 @@ anywiki.displayResults = function(resultsObject) {
     $('.modal').addClass('modal-active');
 }
 
+anywiki.backToResults = function() {
+    $('.modal-content').html(anywiki.currentResults);
+}
+
 anywiki.getPage = function(endpointURL, pageTitle) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
@@ -221,6 +234,10 @@ anywiki.getContent = function(thePageURL) {
 anywiki.displayArticle = function(htmlString) {
     // Create the article element
     const articleElement = $('<article>').addClass('article');
+
+    // Create the back to results link and add it to the element
+    const backLink = $('<a>').addClass('back-to-results').attr('href', '#').text('Back to results');
+    articleElement.append(backLink);
 
     // Create the title and add it to the element
     const articleTitle = $('<h1>').text(anywiki.selectedPage);
