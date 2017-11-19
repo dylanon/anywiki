@@ -16,7 +16,7 @@
 //   * - get images 
 //   * - Ryan suggests using regex to clean up HTML
 // * - Display the sanitized HTML in the content area
-// - User can click an X in the corner to close article/results and return to the search page
+// * - User can click an X in the corner to close article/results and return to the search page
 
 // Create app namespace
 const anywiki = {};
