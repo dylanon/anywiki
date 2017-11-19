@@ -6,15 +6,16 @@
 // * - Send a 'query' request to the API endpoint, pass along the search text
 // * - API returns JSON listing the matching pages
 // * - Display a list of matching pages
+// * - Pagination needs to function (each new page is a new search request to the endpoint)
 // * - User clicks a page name from the list
 // * - Store the clicked page's name
-// * - Send a 'parse' request to the API endpoint, pass along the page name
-// * - API returns page data as JSON, including the HTML for the page
+// * - Send a request with the page name to get the page URL
+// * - Send a request with the page URL to get the content HTML
+// * - API returns page content as HTML
 // * - Process/sanitize the HTML in some way (there is a lot of junk in there)
 //   * - get h1 (document title)
 //   * - get page content inside div#bodyContent
 //   * - get images 
-//   * - Ryan suggests using regex to clean up HTML
 // * - Display the sanitized HTML in the content area
 // * - User can click an X in the corner to close article/results and return to the search page
 
@@ -24,7 +25,7 @@ const anywiki = {};
 // Working API Endpoint
 // const endpoint = 'https://performancewiki.ca/api.php';
 // const endpoint = 'https://indieweb.org/wiki/api.php';
-const endpoint = 'https://en.wikipedia.org/w/api.php';
+// const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 anywiki.events = function() {
