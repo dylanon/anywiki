@@ -50,13 +50,13 @@ anywiki.events = function() {
     });
 
     // Listen for a click on the "Next" link for more search results
-    $('.results-nav').on('click', '.next-results', function(event) {
+    $('.modal-content').on('click', '.next-results', function(event) {
         event.preventDefault();
         anywiki.search(anywiki.endpoint, anywiki.searchText, anywiki.resultsViewed);
     });
 
     // Listen for a click on the "Previous" link for previous search results
-    $('.results-nav').on('click', '.previous-results', function(event) {
+    $('.modal-content').on('click', '.previous-results', function(event) {
         event.preventDefault();
         // Calculate value for sroffset - location in search results
         if (anywiki.resultsViewed % anywiki.resultsPerPage === 0) {
@@ -135,10 +135,11 @@ anywiki.search = function(endpointURL, queryText, resultsOffset) {
 }
 
 anywiki.displayResults = function(resultsObject) {
-    // Empty the results container
-    $('.search-results').empty();
+    // Empty the modal content container
+    $('.modal-content').empty();
 
     const results = resultsObject.query.search;
+    const resultsList = $('<ul>').addClass('search-results');
 
     results.forEach(hit => {
         // Create elements
@@ -147,22 +148,26 @@ anywiki.displayResults = function(resultsObject) {
         const snippet = $('<p>').html(hit.snippet);
         // Put elements together and display
         listItem.append(link, snippet);
-        $('.search-results').append(listItem);
+        resultsList.append(listItem);
 
         anywiki.resultsViewed = anywiki.resultsViewed += 1;
     });
 
     // Update pagination links
-    $('.results-nav').empty();
-
+    
+    const resultsNav = $('<nav>').addClass('results-nav');
+    
     if (anywiki.resultsViewed > anywiki.resultsPerPage) {
         const previousLink = $('<a>').attr('href', '#').addClass('previous-results').text('Previous');
-        $('.results-nav').append(previousLink);
+        resultsNav.append(previousLink);
     }
     if (anywiki.resultsViewed % anywiki.resultsPerPage === 0) {
         const nextLink = $('<a>').attr('href', '#').addClass('next-results').text('Next');
-        $('.results-nav').append(nextLink);
+        resultsNav.append(nextLink);
     }
+
+    // Add results list and nav to the page
+    $('.modal-content').append(resultsList, resultsNav);
 
     // Move the modal on screen
     $('.modal').addClass('modal-padding');
