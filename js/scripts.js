@@ -324,6 +324,10 @@ anywiki.displayArticle = function(htmlString) {
     articleHTML = $('<div>').addClass('article-body').html(articleHTML);
     articleElement.append(articleHTML);
 
+    // Replace default bullets with Font Awesome icons
+    articleElement.find('ul').addClass('fa-ul');
+    articleElement.find('ul li').prepend('<i class="fa-li fa fa-caret-right"></i>');
+
     // Empty container and display the article
     $('.modal-content').empty();
     $('.modal-content').append(articleElement);
