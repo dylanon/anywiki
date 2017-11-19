@@ -310,6 +310,9 @@ anywiki.displayArticle = function(htmlString) {
         imagesLoaded: true,
         wrapAround: true
     });
+
+    // Reset scroll to top of window
+    $(window).scrollTop(0);
 }
 
 anywiki.closeModal = function() {
