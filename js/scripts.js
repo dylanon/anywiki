@@ -32,9 +32,9 @@ anywiki.events = function() {
     $('#search-submit').on('click', function(event) {
         event.preventDefault();
         anywiki.searchText = $('#search-text').val();
-        const wikiURL = $('#search-endpoint').val();
+        anywiki.searchWikiURL = $('#search-endpoint').val();
         anywiki.resultsViewed = 0;
-        anywiki.getEndpoint(wikiURL);
+        anywiki.getEndpoint(anywiki.searchWikiURL);
     });
 
     // Listen for a click on the modal 'Close' link
