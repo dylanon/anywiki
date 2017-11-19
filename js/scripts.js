@@ -46,7 +46,6 @@ anywiki.events = function() {
     // Listen for a click on the 'Back to results' link
     $('.modal-content').on('click', '.back-to-results', function(event) {
         event.preventDefault();
-        console.log('going back');
         anywiki.backToResults();
     });
     
