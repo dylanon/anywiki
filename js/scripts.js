@@ -36,6 +36,11 @@ anywiki.events = function() {
         anywiki.resultsViewed = 0;
         anywiki.getEndpoint(wikiURL);
     });
+
+    // Listen for a click on the modal 'Close' link
+    $('.close-modal').on('click', function() {
+        anywiki.closeModal();
+    });
     
     // Listen for when a search result link is clicked
     $('.search-results').on('click', 'a', function(event) {
