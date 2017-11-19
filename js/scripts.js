@@ -148,36 +148,44 @@ anywiki.displayResults = function(resultsObject) {
     const resultsHeading = $('<h1>').addClass('results-heading').html(searchSummary);
 
     const results = resultsObject.query.search;
-    const resultsList = $('<ul>').addClass('search-results');
 
-    results.forEach(hit => {
-        // Create elements
-        const listItem = $('<li>');
-        const link = $('<a>').attr('href', '#').text(hit.title);
-        const snippet = $('<p>').html(hit.snippet);
-        // Put elements together and display
-        listItem.append(link, snippet);
-        resultsList.append(listItem);
-
-        anywiki.resultsViewed = anywiki.resultsViewed += 1;
-    });
-
-    // Update pagination links
+    if (results.length === 0) {
+        // If there are NO hits...
+        const noHitsMessage = $('<p>').addClass('no-results').text(`Oops! There are no matching pages on ${anywiki.searchWikiURL}. Try adjusting your search terms.`);
+        $('.modal-content').append(noHitsMessage);
+    } else {
+        // If there ARE hits...
+        const resultsList = $('<ul>').addClass('search-results');
     
-    const resultsNav = $('<nav>').addClass('results-nav');
+        results.forEach(hit => {
+            // Create elements
+            const listItem = $('<li>');
+            const link = $('<a>').attr('href', '#').text(hit.title);
+            const snippet = $('<p>').html(hit.snippet);
+            // Put elements together and display
+            listItem.append(link, snippet);
+            resultsList.append(listItem);
     
-    if (anywiki.resultsViewed > anywiki.resultsPerPage) {
-        const previousLink = $('<a>').attr('href', '#').addClass('previous-results').text('Previous');
-        resultsNav.append(previousLink);
+            anywiki.resultsViewed = anywiki.resultsViewed += 1;
+        });
+    
+        // Update pagination links
+        
+        const resultsNav = $('<nav>').addClass('results-nav');
+        
+        if (anywiki.resultsViewed > anywiki.resultsPerPage) {
+            const previousLink = $('<a>').attr('href', '#').addClass('previous-results').text('Previous');
+            resultsNav.append(previousLink);
+        }
+        if (anywiki.resultsViewed % anywiki.resultsPerPage === 0) {
+            const nextLink = $('<a>').attr('href', '#').addClass('next-results').text('Next');
+            resultsNav.append(nextLink);
+        }
+    
+        // Add results list and nav to the page
+        $('.modal-content').empty();
+        $('.modal-content').append(resultsHeading, resultsList, resultsNav);
     }
-    if (anywiki.resultsViewed % anywiki.resultsPerPage === 0) {
-        const nextLink = $('<a>').attr('href', '#').addClass('next-results').text('Next');
-        resultsNav.append(nextLink);
-    }
-
-    // Add results list and nav to the page
-    $('.modal-content').empty();
-    $('.modal-content').append(resultsHeading, resultsList, resultsNav);
 
     // Move the modal on screen
     $('.close-modal').css('display', 'block');
