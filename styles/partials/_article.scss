@@ -33,9 +33,11 @@
         }
     }
 
-    // Hide references (big lists of links, often break the layout)
+    // Hide references, table of contents (big lists of links)
     .reflist,
-    .references {
+    .references,
+    .toc,
+    #toc {
         display: none;
     }
 }
