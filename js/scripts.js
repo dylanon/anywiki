@@ -299,8 +299,13 @@ anywiki.displayArticle = function(htmlString) {
                 const imgWidth = $(this).width();
                 const imgHeight = $(this).height();
                 // If the loaded image is too small, remove its cell from the carousel
-                if (imgWidth < 150 || imgHeight < 150) {
+                if (imgWidth < 200 || imgHeight < 200) {
                     $('.carousel').flickity('remove', $(this).parent());
+                }
+                // If the carousel is empty, uninitialize it
+                const cellsArray = $('.carousel').find('.carousel-cell');
+                if (cellsArray.length === 0) {
+                    $('.carousel').flickity('destroy');
                 }
             });
             carouselItem.append(carouselImage);
