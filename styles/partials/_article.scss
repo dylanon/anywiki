@@ -27,3 +27,9 @@
 .article-body {
     margin-top: $base-margin * 4;
 }
+
+.back-to-results {
+    @extend .modal-control;
+    font-family: $font-family;
+    left: 0;
+}

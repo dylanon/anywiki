@@ -238,7 +238,8 @@ anywiki.displayArticle = function(htmlString) {
     const articleElement = $('<article>').addClass('article');
 
     // Create the back to results link and add it to the element
-    const backLink = $('<a>').addClass('back-to-results').attr('href', '#').text('Back to results');
+    const backIcon = '<i class="fa fa-arrow-left"></i>';
+    const backLink = $('<a>').addClass('back-to-results').attr('href', '#').html(`${backIcon}&nbsp;Back to results`);
     articleElement.append(backLink);
 
     // Create the title and add it to the element
