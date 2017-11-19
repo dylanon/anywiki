@@ -299,9 +299,7 @@ anywiki.displayArticle = function(htmlString) {
 anywiki.closeModal = function() {
     $('.modal').removeClass('modal-active');
     setTimeout(() => {
-        $('.search-results').empty();
-        $('.results-nav').empty();
-        $('.article').empty();
+        $('.modal-content').empty();
         $('.modal').removeClass('modal-padding');
     }, 500); // Timing corresponds to modal transition time for 'top' property in _modal.scss
 }
