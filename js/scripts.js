@@ -28,6 +28,11 @@ const endpoint = 'https://en.wikipedia.org/w/api.php';
 // const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
 
 anywiki.events = function() {
+    // Listen for a change in the wiki URL input
+    $('#search-endpoint').on('change', function() {
+        $('.wiki-url-warning').empty();
+    });
+
     // Listen for a click on the "Search" button
     $('#search-submit').on('click', function(event) {
         event.preventDefault();
@@ -109,14 +114,18 @@ anywiki.getEndpoint = function(urlString){
         // Response is raw HTML of the page
         const regex = /rel=['"]EditURI.*href=['"](.*api\.php)/i;
         const matchArray = response.match(regex);
-        // Store the endpoint URL only
-        let theEndpoint = matchArray[1];
-        // If the URL doesn't start with letters, replace non-letters with 'http://'
-        theEndpoint = theEndpoint.replace(badStart, 'http://');
-        // Store the endpoint
-        anywiki.endpoint = theEndpoint;
-        // Do the search
-        anywiki.search(anywiki.endpoint, anywiki.searchText);
+        if (matchArray) {
+            // Store the endpoint URL only
+            let theEndpoint = matchArray[1];
+            // If the URL doesn't start with letters, replace non-letters with 'http://'
+            theEndpoint = theEndpoint.replace(badStart, 'http://');
+            // Store the endpoint
+            anywiki.endpoint = theEndpoint;
+            // Do the search
+            anywiki.search(anywiki.endpoint, anywiki.searchText);
+        } else {
+            $('.wiki-url-warning').text(`Oops - That's not a wiki!`);
+        }
     });
 }
 

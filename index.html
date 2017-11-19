@@ -17,11 +17,16 @@
                 <h1 class="site-title">anyWiki</h1>
                 <p class="tagline">Search any wiki</p>
                 <form id="search-form" class="search-form">
-                    <label for="search-endpoint">Paste a link to a wiki:</label>
-                    <input type="url" name="search-endpoint" id="search-endpoint" value="en.wikipedia.org">
-                    <label for="search-text">What are you looking for?</label>
-                    <input type="text" name="search-text" id="search-text">
-                    <input type="submit" id="search-submit" value="Search">
+                    <div class="form-item">
+                        <label for="search-endpoint">Paste a link to a wiki:</label>
+                        <input type="url" name="search-endpoint" id="search-endpoint" value="en.wikipedia.org">
+                        <p class="wiki-url-warning"></p>
+                    </div>
+                    <div class="form-item">
+                        <label for="search-text">What are you looking for?</label>
+                        <input type="text" name="search-text" id="search-text">
+                        <input type="submit" id="search-submit" value="Search">
+                    </div>
                 </form>
             </div>
         </div>
