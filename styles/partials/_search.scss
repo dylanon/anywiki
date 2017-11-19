@@ -7,7 +7,6 @@
         $bg-gradient-mid $bg-gradient-mid-percent, 
         $bg-gradient-end
     );
-    height: 100vh;
     position: fixed;
     z-index: -10;
     top: 0;
@@ -24,15 +23,20 @@
 
 .search-view-content {
     margin: auto;
+    padding: $base-margin-px;
 }
 
 .site-title {
     color: $primary-color;
     font: {
-        size: 8rem;
+        size: 6rem;
         weight: 700;
     }
     margin: 0;
+
+    @media (min-width: 350px) {
+        font-size: 8rem;
+    }
 }
 
 .tagline {
@@ -41,6 +45,7 @@
 
 .search-form {
     display: flex;
+    flex-flow: column nowrap;
 
     label {
         display: block;
@@ -58,6 +63,10 @@
         margin: 0 0 $base-margin 0;
         width: 100%;
     }
+
+    @media (min-width: 630px) {
+        flex-flow: row nowrap;
+    }
 }
 
 input[type=submit] {
@@ -68,8 +77,10 @@ input[type=submit] {
 
 .form-item {
     position: relative;
-    margin: 0 ($base-margin * 2);
-    
+
+    @media (min-width: 630px) {
+        margin: 0 ($base-margin-px * 2);
+    }
 }
 
 .wiki-url-warning {
