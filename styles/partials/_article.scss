@@ -22,6 +22,12 @@
     p {
         line-height: 1.6;
     }
+
+    // Hide references (big lists of links, often break the layout)
+    .reflist,
+    .references {
+        display: none;
+    }
 }
 
 .article-body {
