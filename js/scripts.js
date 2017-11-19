@@ -160,6 +160,7 @@ anywiki.displayResults = function(resultsObject) {
     }
 
     // Move the modal on screen
+    $('.modal').addClass('modal-padding');
     $('.modal').addClass('modal-active');
 }
 
@@ -253,6 +254,16 @@ anywiki.displayArticle = function(htmlString) {
             });
         }
     $('.article').append(articleHTML);
+}
+
+anywiki.closeModal = function() {
+    $('.modal').removeClass('modal-active');
+    setTimeout(() => {
+        $('.search-results').empty();
+        $('.results-nav').empty();
+        $('.article').empty();
+        $('.modal').removeClass('modal-padding');
+    }, 500); // Timing corresponds to modal transition time for 'top' property in _modal.scss
 }
 
 anywiki.init = function() {

@@ -12,8 +12,13 @@
     // transform: translateX(-50%);
 }
 
+// Dynamically added and removed with JavaScript for nice transitions
 .modal-active {
     top: 0;
+}
+
+// Dynamically added and removed with JavaScript for nice transitions
+.modal-padding {
     padding: 32px 64px;
 }
 
