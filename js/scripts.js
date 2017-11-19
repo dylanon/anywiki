@@ -22,12 +22,6 @@
 // Create app namespace
 const anywiki = {};
 
-// Working API Endpoint
-// const endpoint = 'https://performancewiki.ca/api.php';
-// const endpoint = 'https://indieweb.org/wiki/api.php';
-// const endpoint = 'https://en.wikipedia.org/w/api.php';
-// const endpoint = 'https://bulbapedia.bulbagarden.net/w/api.php';
-
 anywiki.events = function() {
     // Listen for a change in the wiki URL input
     $('#search-endpoint').on('change', function() {
