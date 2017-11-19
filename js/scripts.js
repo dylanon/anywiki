@@ -299,7 +299,7 @@ anywiki.displayArticle = function(htmlString) {
                 const imgWidth = $(this).width();
                 const imgHeight = $(this).height();
                 // If the loaded image is too small, remove its cell from the carousel
-                if (imgWidth < 200 || imgHeight < 200) {
+                if (imgWidth < 150 || imgHeight < 150) {
                     $('.carousel').flickity('remove', $(this).parent());
                 }
                 // If the carousel is empty, uninitialize it
