@@ -305,7 +305,7 @@ anywiki.displayArticle = function(htmlString) {
                 // If the carousel is empty, uninitialize it
                 const cellsArray = $('.carousel').find('.carousel-cell');
                 if (cellsArray.length === 0) {
-                    $('.carousel').flickity('destroy');
+                    $('.carousel').flickity('destroy').remove();
                 }
             });
             carouselItem.append(carouselImage);
