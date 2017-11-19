@@ -179,6 +179,7 @@ anywiki.displayResults = function(resultsObject) {
     $('.modal-content').append(resultsList, resultsNav);
 
     // Move the modal on screen
+    $('.close-modal').css('display', 'block');
     $('.modal').addClass('modal-padding');
     $('.modal').addClass('modal-active');
 }
@@ -301,6 +302,7 @@ anywiki.closeModal = function() {
     setTimeout(() => {
         $('.modal-content').empty();
         $('.modal').removeClass('modal-padding');
+        $('.close-modal').css('display', 'none');
     }, 500); // Timing corresponds to modal transition time for 'top' property in _modal.scss
 }
 
