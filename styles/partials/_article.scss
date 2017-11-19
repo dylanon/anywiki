@@ -38,3 +38,13 @@
     // Shown with JS when we are done manipulating the carousel content
     opacity: 0;
 }
+
+.carousel-cell {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+
+    img {
+        margin: auto;
+    }
+}
