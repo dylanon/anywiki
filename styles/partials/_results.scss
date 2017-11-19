@@ -1,0 +1,22 @@
+/* RESULTS */
+.search-results {
+    list-style: none;
+
+    a {
+        font: {
+            size: 2.4rem;
+            weight: 700;
+        }
+    }
+
+    li {
+        margin: 0 0 ($base-margin * 1.5) 0;
+    }
+
+    p {
+        margin-top: 0.7rem;
+        font: {
+            weight: 300;
+        }
+    }    
+}
