@@ -2,12 +2,14 @@
 
 .article {
     font-family: 'Open Sans', sans-serif;
+
     h1 {
         font: {
             size: 4.8rem;
         }
         text-align: center;
     }
+
     h1,
     h2,
     h3,
@@ -16,6 +18,7 @@
     h6 {
         font-family: $font-family;
     }
+
     p {
         line-height: 1.6;
     }
