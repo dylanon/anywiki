@@ -43,7 +43,7 @@ anywiki.events = function() {
     });
     
     // Listen for when a search result link is clicked
-    $('.search-results').on('click', 'a', function(event) {
+    $('.modal-content').on('click', '.search-results a', function(event) {
         event.preventDefault();
         anywiki.selectedPage = $(this).text();
         anywiki.getPage(anywiki.endpoint, anywiki.selectedPage);
