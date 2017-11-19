@@ -42,8 +42,12 @@
 
 .close-modal {
     @extend .modal-control;
-    right: 0;
+    right: $base-margin-px;
     display: none;
+
+    .fa {
+        padding-left: $base-margin-px / 2;
+    }
 }
 
 .modal-content {

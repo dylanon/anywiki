@@ -38,7 +38,7 @@ em {
 
 .modal-control {
     position: absolute;
-    top: 0;
+    top: $base-margin-px / 2;
     padding: 1rem;
     color: $black;
     font: {
