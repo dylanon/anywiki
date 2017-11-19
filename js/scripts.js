@@ -144,8 +144,8 @@ anywiki.search = function(endpointURL, queryText, resultsOffset) {
 }
 
 anywiki.displayResults = function(resultsObject) {
-    // Empty the modal content container
-    $('.modal-content').empty();
+    const searchSummary = `<em>"${anywiki.searchText}"</em> on <span class="user-wiki-url">${anywiki.searchWikiURL}</span>`;
+    const resultsHeading = $('<h1>').addClass('results-heading').html(searchSummary);
 
     const results = resultsObject.query.search;
     const resultsList = $('<ul>').addClass('search-results');
@@ -176,7 +176,8 @@ anywiki.displayResults = function(resultsObject) {
     }
 
     // Add results list and nav to the page
-    $('.modal-content').append(resultsList, resultsNav);
+    $('.modal-content').empty();
+    $('.modal-content').append(resultsHeading, resultsList, resultsNav);
 
     // Move the modal on screen
     $('.close-modal').css('display', 'block');

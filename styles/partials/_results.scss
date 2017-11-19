@@ -1,4 +1,17 @@
 /* RESULTS */
+.results-heading {
+    text-align: center;
+    font-weight: 400;
+    margin-top: $base-margin / 2;
+}
+
+.user-wiki-url {
+    font: {
+        weight: 700;
+    }
+    text-decoration: underline;
+}
+
 .search-results {
     list-style: none;
 
