@@ -159,6 +159,8 @@ anywiki.displayResults = function(resultsObject) {
         $('.results-nav').append(nextLink);
     }
 
+    // Move the modal on screen
+    $('.modal').addClass('modal-active');
 }
 
 anywiki.getPage = function(endpointURL, pageTitle) {
