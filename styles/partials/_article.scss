@@ -33,3 +33,8 @@
     font-family: $font-family;
     left: 0;
 }
+
+.carousel {
+    // Shown with JS when we are done manipulating the carousel content
+    opacity: 0;
+}

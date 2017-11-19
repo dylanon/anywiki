@@ -335,6 +335,11 @@ anywiki.displayArticle = function(htmlString) {
         wrapAround: true
     });
 
+    // Delay display of carousel so user doesn't see rapid changes in carousel content we are making
+    setTimeout(() => {
+        $('.carousel').fadeTo(300, 1);
+    }, 1000);
+
     // Reset scroll to top of window
     $(window).scrollTop(0);
 }
