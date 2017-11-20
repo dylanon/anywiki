@@ -50,6 +50,11 @@ anywiki.events = function() {
         anywiki.closeModal();
     });
 
+    // Listen for a click outside the modal
+    $('.search-view').on('click', function() {
+        anywiki.closeModal();
+    });
+
     // Listen for a click on the 'Back to results' link
     $('.modal-content').on('click', '.back-to-results', function(event) {
         event.preventDefault();
