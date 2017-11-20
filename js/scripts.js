@@ -171,6 +171,9 @@ anywiki.search = function(queryText, resultsOffset) {
         })
         .fail(() => {
             $('.search-warning').text(`Search failed :'( Try a different wiki!`);
+            if ($('.modal').hasClass('modal-active')) {
+                anywiki.closeModal();
+            }
         });
 }
 
