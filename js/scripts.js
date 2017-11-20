@@ -252,6 +252,11 @@ anywiki.getURL = function(pageTitle) {
                 pageURL = pagesObject[page].fullurl;
             }
             anywiki.getContent(pageURL); 
+        })
+        .fail(() => {
+            // The API always returns a URL - even one that doesn't exist.
+            // This code will not run, but getContent() will throw an error for the user.
+            console.log('Could not retrieve page URL.');
         });
 }
 
