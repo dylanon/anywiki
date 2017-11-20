@@ -54,13 +54,13 @@ anywiki.events = function() {
         event.preventDefault();
         anywiki.selectedPage = $(this).text();
         anywiki.currentResults = $('.modal-content').html();
-        anywiki.getPage(anywiki.endpoint, anywiki.selectedPage);
+        anywiki.getURL(anywiki.selectedPage);
     });
 
     // Listen for a click on the "Next" link for more search results
     $('.modal-content').on('click', '.next-results', function(event) {
         event.preventDefault();
-        anywiki.search(anywiki.endpoint, anywiki.searchText, anywiki.resultsViewed);
+        anywiki.search(anywiki.searchText, anywiki.resultsViewed);
     });
 
     // Listen for a click on the "Previous" link for previous search results
@@ -72,7 +72,7 @@ anywiki.events = function() {
         } else {
             anywiki.resultsViewed = anywiki.resultsViewed - anywiki.resultsPerPage - (anywiki.resultsViewed % anywiki.resultsPerPage);
         }
-        anywiki.search(anywiki.endpoint, anywiki.searchText, anywiki.resultsViewed);
+        anywiki.search(anywiki.searchText, anywiki.resultsViewed);
     });
 }
 
@@ -117,20 +117,20 @@ anywiki.getEndpoint = function(urlString){
             // Store the endpoint
             anywiki.endpoint = theEndpoint;
             // Do the search
-            anywiki.search(anywiki.endpoint, anywiki.searchText);
+            anywiki.search(anywiki.searchText);
         } else {
             $('.wiki-url-warning').text(`Oops - That's not a wiki!`);
         }
     });
 }
 
-anywiki.search = function(endpointURL, queryText, resultsOffset) {
+anywiki.search = function(queryText, resultsOffset) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
         dataType: 'json',
         data: {
-            reqUrl: endpointURL,
+            reqUrl: anywiki.endpoint,
             params: {
                 action: 'query',
                 format: 'json',
@@ -205,13 +205,13 @@ anywiki.backToResults = function() {
     $('.modal-content').html(anywiki.currentResults);
 }
 
-anywiki.getPage = function(endpointURL, pageTitle) {
+anywiki.getURL = function(pageTitle) {
     $.ajax({
         url: 'http://proxy.hackeryou.com',
         method: 'GET',
         dataType: 'json',
         data: {
-            reqUrl: endpointURL,
+            reqUrl: anywiki.endpoint,
             params: {
                 action: 'query',
                 format: 'json',
