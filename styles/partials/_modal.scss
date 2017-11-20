@@ -5,6 +5,7 @@
     top: 100%;
     width: 100%;
     background: $modal-bg;
+    border-radius: 5px;
     transition: top 0.5s ease; // Timing corresponds to delay in closeModal() function
     overflow-wrap: break-word; // Break line inside words that would overflow the container
 

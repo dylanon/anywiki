@@ -54,6 +54,7 @@
     input[type=url],
     input[type=text] {
         border: 0;
+        border-radius: 5px;
         font: {
             size: $font-size;
         }
