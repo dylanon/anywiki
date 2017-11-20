@@ -357,7 +357,8 @@ anywiki.displayArticle = function(htmlString) {
     $('.carousel').flickity({
         cellAlign: 'center',
         imagesLoaded: true,
-        wrapAround: true
+        wrapAround: true,
+        accessibility: true
     });
 
     // Delay display of carousel so user doesn't see rapid changes in carousel content we are making
