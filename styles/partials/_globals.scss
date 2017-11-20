@@ -35,14 +35,3 @@ em {
     border: 0;
     border-radius: 5px;
 }
-
-.modal-control {
-    position: absolute;
-    top: $base-margin-px / 2;
-    padding: 1rem;
-    color: $black;
-    font: {
-        size: 2rem;
-    }
-    text-decoration: none;
-}
