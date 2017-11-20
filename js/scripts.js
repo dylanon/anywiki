@@ -79,13 +79,13 @@ anywiki.events = function() {
 anywiki.getEndpoint = function(urlString){
     // Gets the endpoint from the user-inputted URL
     let requestURL = urlString;
-    const badStart = /^[^a-zA-z]+/;
+    const badStartRegex = /^[^a-zA-z]+/;
     const protocolRegex = /^https?:\/\//;
     const wikipediaRegex = /^(https?:\/\/)*wikipedia\.org/;
 
     // Replace non-letter characters at start with appropriate protocol
-    if (badStart.test(requestURL)) {
-        requestURL = requestURL.replace(badStart, 'http://');
+    if (badStartRegex.test(requestURL)) {
+        requestURL = requestURL.replace(badStartRegex, 'http://');
     }
     // Add protocol if it's not specified
     if (protocolRegex.test(requestURL) === false) {
@@ -110,10 +110,10 @@ anywiki.getEndpoint = function(urlString){
         const matchArray = response.match(regex);
         // Proceed if we found an endpoint URL, but warn the user if we didn't
         if (matchArray) {
-            // Store the endpoint URL only
+            // Store the endpoint URL only (the matched endpoint URL appears at index 1 of the array)
             let theEndpoint = matchArray[1];
             // If the URL doesn't start with letters, replace non-letters with 'http://'
-            theEndpoint = theEndpoint.replace(badStart, 'http://');
+            theEndpoint = theEndpoint.replace(badStartRegex, 'http://');
             // Store the endpoint
             anywiki.endpoint = theEndpoint;
             // Do the search
@@ -292,11 +292,12 @@ anywiki.displayArticle = function(htmlString) {
                 // Images load slowly, so this runs after the carousel is initialized
                 const imgWidth = $(this).width();
                 const imgHeight = $(this).height();
+                const carouselCell = $(this).parent();
                 // If the loaded image is too small, remove its cell from the carousel
                 if (imgWidth < 150 || imgHeight < 150) {
-                    $('.carousel').flickity('remove', $(this).parent());
+                    $('.carousel').flickity('remove', carouselCell);
                 }
-                // If the carousel is empty, uninitialize it
+                // If the carousel is empty, uninitialize it and remove it from the DOM
                 const cellsArray = $('.carousel').find('.carousel-cell');
                 if (cellsArray.length === 0) {
                     $('.carousel').flickity('destroy').remove();
