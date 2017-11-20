@@ -32,6 +32,7 @@ anywiki.events = function() {
     // Listen for a change in the wiki URL input
     $('#search-endpoint').on('change', function() {
         $('.wiki-url-warning').empty();
+        $('.search-warning').empty();
     });
 
     // Listen for a click on the "Search" button
@@ -167,6 +168,9 @@ anywiki.search = function(queryText, resultsOffset) {
     $.when(searchRequest)
         .then(response => {
             anywiki.displayResults(response);
+        })
+        .fail(() => {
+            $('.search-warning').text(`Search failed :'( Try a different wiki!`);
         });
 }
 
