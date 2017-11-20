@@ -76,6 +76,19 @@ anywiki.events = function() {
     });
 }
 
+anywiki.requestHTML = function(requestURL, paramsObject) {
+    return $.ajax({
+        url: 'http://proxy.hackeryou.com',
+        method: 'GET',
+        dataType: 'html',
+        data: {
+            reqUrl: requestURL,
+            params: paramsObject,
+            xmlToJSON: false
+        }
+    });
+}
+
 anywiki.getEndpoint = function(urlString){
     // Gets the endpoint from the user-inputted URL
     let requestURL = urlString;
@@ -96,32 +109,26 @@ anywiki.getEndpoint = function(urlString){
         requestURL = requestURL.replace(/wikipedia/, 'en.wikipedia');
     }
 
-    $.ajax({
-        url: 'http://proxy.hackeryou.com',
-        method: 'GET',
-        dataType: 'html',
-        data: {
-            reqUrl: requestURL,
-            xmlToJSON: false
-        }
-    }).then((response) => {
-        // Response is raw HTML of the page
-        const regex = /rel=['"]EditURI.*href=['"](.*api\.php)/i;
-        const matchArray = response.match(regex);
-        // Proceed if we found an endpoint URL, but warn the user if we didn't
-        if (matchArray) {
-            // Store the endpoint URL only (the matched endpoint URL appears at index 1 of the array)
-            let theEndpoint = matchArray[1];
-            // If the URL doesn't start with letters, replace non-letters with 'http://'
-            theEndpoint = theEndpoint.replace(badStartRegex, 'http://');
-            // Store the endpoint
-            anywiki.endpoint = theEndpoint;
-            // Do the search
-            anywiki.search(anywiki.searchText);
-        } else {
-            $('.wiki-url-warning').text(`Oops - That's not a wiki!`);
-        }
-    });
+    const endpointRequest = anywiki.requestHTML(requestURL);
+    $.when(endpointRequest)
+        .then(response => {
+            // Response is raw HTML of the page
+            const regex = /rel=['"]EditURI.*href=['"](.*api\.php)/i;
+            const matchArray = response.match(regex);
+            // Proceed if we found an endpoint URL, but warn the user if we didn't
+            if (matchArray) {
+                // Store the endpoint URL only (the matched endpoint URL appears at index 1 of the array)
+                let theEndpoint = matchArray[1];
+                // If the URL doesn't start with letters, replace non-letters with 'http://'
+                theEndpoint = theEndpoint.replace(badStartRegex, 'http://');
+                // Store the endpoint
+                anywiki.endpoint = theEndpoint;
+                // Do the search
+                anywiki.search(anywiki.searchText);
+            } else {
+                $('.wiki-url-warning').text(`Oops - That's not a wiki!`);
+            }
+        });
 }
 
 anywiki.search = function(queryText, resultsOffset) {
@@ -232,21 +239,12 @@ anywiki.getURL = function(pageTitle) {
 }
 
 anywiki.getContent = function(thePageURL) {
-    $.ajax({
-        url: 'http://proxy.hackeryou.com',
-        method: 'GET',
-        dataType: 'html',
-        data: {
-            reqUrl: thePageURL,
-            params: {
-                action: 'render'
-            },
-            xmlToJSON: false
-        }
-    }).then(response => {
-        // Response is a string of HTML
-        anywiki.displayArticle(response);
-    });
+    const contentRequest = anywiki.requestHTML(thePageURL, {action: 'render'});
+    $.when(contentRequest)
+        .then(response => {
+            // Response is a string of HTML
+            anywiki.displayArticle(response);
+        });
 }
 
 anywiki.displayArticle = function(htmlString) {
