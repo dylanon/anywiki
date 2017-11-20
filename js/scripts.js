@@ -89,6 +89,19 @@ anywiki.requestHTML = function(requestURL, paramsObject) {
     });
 }
 
+anywiki.requestJSON = function(paramsObject) {
+    return $.ajax({
+        url: 'http://proxy.hackeryou.com',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            reqUrl: anywiki.endpoint,
+            params: paramsObject,
+            xmlToJSON: false
+        }
+    });
+}
+
 anywiki.getEndpoint = function(urlString){
     // Gets the endpoint from the user-inputted URL
     let requestURL = urlString;
@@ -132,26 +145,20 @@ anywiki.getEndpoint = function(urlString){
 }
 
 anywiki.search = function(queryText, resultsOffset) {
-    $.ajax({
-        url: 'http://proxy.hackeryou.com',
-        method: 'GET',
-        dataType: 'json',
-        data: {
-            reqUrl: anywiki.endpoint,
-            params: {
-                action: 'query',
-                format: 'json',
-                list: 'search',
-                srsearch: queryText,
-                srlimit: anywiki.resultsPerPage,
-                sroffset: resultsOffset,
-                srwhat: 'text'
-            },
-            xmlToJSON: false
-        }
-    }).then(response => {
-        anywiki.displayResults(response);
-    });
+    const searchParams = {
+        action: 'query',
+        format: 'json',
+        list: 'search',
+        srsearch: queryText,
+        srlimit: anywiki.resultsPerPage,
+        sroffset: resultsOffset,
+        srwhat: 'text'
+    }
+    const searchRequest = anywiki.requestJSON(searchParams);
+    $.when(searchRequest)
+        .then(response => {
+            anywiki.displayResults(response);
+        });
 }
 
 anywiki.displayResults = function(resultsObject) {
@@ -213,29 +220,23 @@ anywiki.backToResults = function() {
 }
 
 anywiki.getURL = function(pageTitle) {
-    $.ajax({
-        url: 'http://proxy.hackeryou.com',
-        method: 'GET',
-        dataType: 'json',
-        data: {
-            reqUrl: anywiki.endpoint,
-            params: {
-                action: 'query',
-                format: 'json',
-                titles: pageTitle,
-                prop: 'info',
-                inprop: 'url'
-            },
-            xmlToJSON: false
-        }
-    }).then(response => {
-        const pagesObject = response.query.pages;
-        let pageURL = '';
-        for (let page in pagesObject) {
-            pageURL = pagesObject[page].fullurl;
-        }
-        anywiki.getContent(pageURL); 
-    });
+    const requestParams = {
+        action: 'query',
+        format: 'json',
+        titles: pageTitle,
+        prop: 'info',
+        inprop: 'url'
+    }
+    const urlRequest = anywiki.requestJSON(requestParams);
+    $.when(urlRequest)
+        .then(response => {
+            const pagesObject = response.query.pages;
+            let pageURL = '';
+            for (let page in pagesObject) {
+                pageURL = pagesObject[page].fullurl;
+            }
+            anywiki.getContent(pageURL); 
+        });
 }
 
 anywiki.getContent = function(thePageURL) {
