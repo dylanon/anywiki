@@ -81,6 +81,14 @@ anywiki.events = function() {
         }
         anywiki.search(anywiki.searchText, anywiki.resultsViewed);
     });
+
+    // Listen for a click on any link in an article
+    $('.modal-content').on('click', '.article-body a', function(event) {
+        event.preventDefault();
+        console.log('clickd da link');
+        const anyLink = $(this).attr('href');
+        anywiki.getContent(anyLink);
+    });
 }
 
 anywiki.requestHTML = function(requestURL, paramsObject) {
