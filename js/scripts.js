@@ -147,6 +147,9 @@ anywiki.getEndpoint = function(urlString){
             } else {
                 $('.wiki-url-warning').text(`Oops - That's not a wiki!`);
             }
+        })
+        .fail(() => {
+            $('.wiki-url-warning').text(`Oops - I don't recognize that URL.`);
         });
 }
 
@@ -251,6 +254,10 @@ anywiki.getContent = function(thePageURL) {
         .then(response => {
             // Response is a string of HTML
             anywiki.displayArticle(response);
+        })
+        .fail(() => {
+            const failMessage = `<p class="no-article">Sorry! I can't find that page right now. Try another result.</p>`;
+            anywiki.displayArticle(failMessage);
         });
 }
 
