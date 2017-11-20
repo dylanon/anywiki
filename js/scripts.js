@@ -276,9 +276,6 @@ anywiki.displayArticle = function(htmlString) {
         imageArray.forEach((image, i) => {
             imageArray[i] = imageArray[i].replace(/<img.*src=['"]/, '');
         });
-        console.log(imageArray);
-    } else {
-        console.log('No properly referenced images to grab.')
     }
 
     // If there are images, add an image carousel to the article element
