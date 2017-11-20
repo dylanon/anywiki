@@ -1,3 +1,9 @@
+/* 
+ * anyWiki: Search any wiki
+ * Conceptualized, built, and designed by Dylan On
+ * https://dylanon.com
+ */
+
 // ## Pseudocode
 
 // * - User picks a wiki to search (for MVP, there is only one option)
